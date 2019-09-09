@@ -1,0 +1,4 @@
+<launch>
+   <node pkg="dc_motor" type="DCMotorlistener.py" name="dc_motor_node" output="screen"/>
+   <node pkg="odometry_path" type="odometry_path.py" name="odometry_path" output="screen"/>
+</launch>

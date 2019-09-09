@@ -1,0 +1,3 @@
+<launch>
+   <node pkg="bmi088_ros" type="bmi088Node" name="bmi088_imu" output="screen"/>
+</launch>

@@ -1,0 +1,37 @@
+<launch>
+	<!--<include file="$(find rplidar_ros)/launch/rplidar.launch"/>-->
+	<include file="$(find bno055_ros)/launch/imu.launch"/>
+	<!--<include file="$(find raspicam_node)/launch/camerav2_1280x960.launch"/>-->
+
+	<!--<node pkg="bmi088_ros" type="bmi088Node" name="bmi088_imu"/>-->
+	<!--<node pkg="dc_motor" type="DCMotorlistener.py" name="dc_motor_node" output="screen"/>-->
+
+	<!--<node pkg="odometry_path" type="odometry_path.py" name="odometry_path" output="screen">
+		<param name="topic_name"         type="string" value="/odom"/>
+		<param name="path_name"         type="string" value="/path"/>
+	</node>-->
+
+	<!--<node pkg="odometry_path" type="odometry_path.py" name="odometry_filtered_path" output="screen">
+		<param name="topic_name"         type="string" value="/odometry/filtered"/>
+		<param name="path_name"         type="string" value="/path/filtered"/>-->
+	</node>
+
+	<!-- Laser transformation publisher -->
+	<node name="base_link_to_laser"
+		pkg="tf" type="static_transform_publisher"
+		args="0.075 0.0 0.0 3.14 0.0 0.0 base_link laser 100" 
+	/>
+
+	<!--<node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
+		<rosparam command="load" file="$(find robot_localization)/params/ekf_template.yaml" />
+	</node>-->
+
+	<!--<node pkg="gmapping" type="slam_gmapping" name="slam_gmapping_node">
+		<param name="particles" value="80"/>
+		<param name="maxUrange" value="11.0"/>
+		<param name="linearUpdate" value="0.25"/>
+		<param name="angularUpdate" value="0.25"/>
+		<param name="temporalUpdate" value="2.0"/>
+		<param name="maxRange" value="12.0"/>-->
+	</node>
+</launch>
