@@ -1,0 +1,4 @@
+Symlinking /home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/devel/share/bmi088_ros/cmake/bmi088_rosConfig.cmake
+Symlinking /home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/devel/share/bmi088_ros/cmake/bmi088_rosConfig-version.cmake
+Symlinking /home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/devel/lib/pkgconfig/bmi088_ros.pc
+Symlinking /home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/devel/lib/bmi088_ros/bmi088Node

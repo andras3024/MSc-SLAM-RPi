@@ -1,0 +1,1 @@
+/home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/devel/.private/bmi088_ros/share/bmi088_ros/cmake/bmi088_rosConfig.cmake

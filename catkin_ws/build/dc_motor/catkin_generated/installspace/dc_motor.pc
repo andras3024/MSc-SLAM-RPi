@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/install
+
+Name: dc_motor
+Description: Description of dc_motor
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/install/lib 
+Requires: 
