@@ -1,0 +1,5 @@
+bno055_ros
+/home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/devel/.private/bno055_ros/cmake.lock /home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/devel/./cmake.lock
+/home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/devel/.private/bno055_ros/share/bno055_ros/cmake/bno055_rosConfig-version.cmake /home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/devel/share/bno055_ros/cmake/bno055_rosConfig-version.cmake
+/home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/devel/.private/bno055_ros/share/bno055_ros/cmake/bno055_rosConfig.cmake /home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/devel/share/bno055_ros/cmake/bno055_rosConfig.cmake
+/home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/devel/.private/bno055_ros/lib/pkgconfig/bno055_ros.pc /home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/devel/lib/pkgconfig/bno055_ros.pc
