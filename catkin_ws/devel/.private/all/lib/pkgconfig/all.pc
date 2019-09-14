@@ -1,8 +1,0 @@
-prefix=/home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/devel/.private/all
-
-Name: all
-Description: Description of all
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/devel/.private/all/lib 
-Requires: 

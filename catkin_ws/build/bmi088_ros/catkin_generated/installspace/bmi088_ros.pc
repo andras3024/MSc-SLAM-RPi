@@ -1,8 +1,0 @@
-prefix=/home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/install
-
-Name: bmi088_ros
-Description: Description of bmi088_ros
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/install/lib 
-Requires: 

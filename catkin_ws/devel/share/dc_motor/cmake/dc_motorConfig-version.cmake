@@ -1,1 +1,0 @@
-/home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/devel/.private/dc_motor/share/dc_motor/cmake/dc_motorConfig-version.cmake

@@ -1,8 +1,0 @@
-prefix=/home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/devel/.private/bno055_ros
-
-Name: bno055_ros
-Description: Description of bno055_ros
-Version: 1.0.0
-Cflags: 
-Libs: -L/home/ubuntu/Documents/GitHub/MSc-SLAM-RPi/catkin_ws/devel/.private/bno055_ros/lib 
-Requires: 
