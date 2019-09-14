@@ -1,8 +1,10 @@
 <launch>
 	<include file="$(find bno055_ros)/launch/imu.launch"/>
 	<include file="$(find rplidar_ros)/launch/rplidar.launch"/>
-	<include file="$(find all)/launch/rosbridge.launch"/>>
-	<include file="$(find raspicam_node)/launch/camerav2_1280x960.launch"/>
+	<include file="$(find all)/launch/rosbridge.launch"/>
+	<include file="$(find all)/launch/raspicam.launch">
+		<arg name="quality" value="50"/>
+	</include>
 
 	<node pkg="bmi088_ros" type="bmi088Node" name="bmi088_imu"/>
 	<node pkg="dc_motor" type="DCMotorlistener.py" name="dc_motor_node" output="screen"/>
