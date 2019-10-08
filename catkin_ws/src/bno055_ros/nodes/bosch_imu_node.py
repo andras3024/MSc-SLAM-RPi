@@ -168,9 +168,9 @@ if __name__ == '__main__':
 
     # Sensor measurements publishers
     pub_data = rospy.Publisher('imu/data', Imu, queue_size=1)
-    pub_raw = rospy.Publisher('imu/raw', Imu, queue_size=1)
-    pub_mag = rospy.Publisher('imu/mag', MagneticField, queue_size=1)
-    pub_temp = rospy.Publisher('imu/temp', Temperature, queue_size=1)
+    #pub_raw = rospy.Publisher('imu/raw', Imu, queue_size=1)
+    #pub_mag = rospy.Publisher('imu/mag', MagneticField, queue_size=1)
+    #pub_temp = rospy.Publisher('imu/temp', Temperature, queue_size=1)
 
     # srv = Server(imuConfig, reconfig_callback)  # define dynamic_reconfigure callback
 
@@ -234,19 +234,19 @@ if __name__ == '__main__':
         buf = read_from_dev(ser, ACCEL_DATA, 46)
         if buf != 0:
             # Publish raw data
-            imu_raw.header.stamp = rospy.Time.now()
-            imu_raw.header.frame_id = frame_id
-            imu_raw.header.seq = seq
-            imu_raw.orientation_covariance[0] = -1
-            imu_raw.linear_acceleration.x = float(st.unpack('h', st.pack('BB', buf[0], buf[1]))[0]) / acc_fact
-            imu_raw.linear_acceleration.y = float(st.unpack('h', st.pack('BB', buf[2], buf[3]))[0]) / acc_fact
-            imu_raw.linear_acceleration.z = float(st.unpack('h', st.pack('BB', buf[4], buf[5]))[0]) / acc_fact
-            imu_raw.linear_acceleration_covariance[0] = -1
-            imu_raw.angular_velocity.x = float(st.unpack('h', st.pack('BB', buf[12], buf[13]))[0]) / gyr_fact
-            imu_raw.angular_velocity.y = float(st.unpack('h', st.pack('BB', buf[14], buf[15]))[0]) / gyr_fact
-            imu_raw.angular_velocity.z = float(st.unpack('h', st.pack('BB', buf[16], buf[17]))[0]) / gyr_fact
-            imu_raw.angular_velocity_covariance[0] = -1
-            pub_raw.publish(imu_raw)
+            #imu_raw.header.stamp = rospy.Time.now()
+            #imu_raw.header.frame_id = frame_id
+            #imu_raw.header.seq = seq
+            #imu_raw.orientation_covariance[0] = -1
+            #imu_raw.linear_acceleration.x = float(st.unpack('h', st.pack('BB', buf[0], buf[1]))[0]) / acc_fact
+            #imu_raw.linear_acceleration.y = float(st.unpack('h', st.pack('BB', buf[2], buf[3]))[0]) / acc_fact
+            #imu_raw.linear_acceleration.z = float(st.unpack('h', st.pack('BB', buf[4], buf[5]))[0]) / acc_fact
+            #imu_raw.linear_acceleration_covariance[0] = -1
+            #imu_raw.angular_velocity.x = float(st.unpack('h', st.pack('BB', buf[12], buf[13]))[0]) / gyr_fact
+            #imu_raw.angular_velocity.y = float(st.unpack('h', st.pack('BB', buf[14], buf[15]))[0]) / gyr_fact
+            #imu_raw.angular_velocity.z = float(st.unpack('h', st.pack('BB', buf[16], buf[17]))[0]) / gyr_fact
+            #imu_raw.angular_velocity_covariance[0] = -1
+            #pub_raw.publish(imu_raw)
 
             # Publish filtered data
             imu_data.header.stamp = rospy.Time.now()
@@ -274,13 +274,13 @@ if __name__ == '__main__':
             pub_data.publish(imu_data)
 
             # Publish magnetometer data
-            mag_msg.header.stamp = rospy.Time.now()
-            mag_msg.header.frame_id = frame_id
-            mag_msg.header.seq = seq
-            mag_msg.magnetic_field.x = float(st.unpack('h', st.pack('BB', buf[6], buf[7]))[0]) / mag_fact
-            mag_msg.magnetic_field.y = float(st.unpack('h', st.pack('BB', buf[8], buf[9]))[0]) / mag_fact
-            mag_msg.magnetic_field.z = float(st.unpack('h', st.pack('BB', buf[10], buf[11]))[0]) / mag_fact
-            pub_mag.publish(mag_msg)
+            #mag_msg.header.stamp = rospy.Time.now()
+            #mag_msg.header.frame_id = frame_id
+            #mag_msg.header.seq = seq
+            #mag_msg.magnetic_field.x = float(st.unpack('h', st.pack('BB', buf[6], buf[7]))[0]) / mag_fact
+            #mag_msg.magnetic_field.y = float(st.unpack('h', st.pack('BB', buf[8], buf[9]))[0]) / mag_fact
+            #mag_msg.magnetic_field.z = float(st.unpack('h', st.pack('BB', buf[10], buf[11]))[0]) / mag_fact
+            #pub_mag.publish(mag_msg)
 
             # Publish temperature
             #temperature_msg.header.stamp = rospy.Time.now()

@@ -210,7 +210,7 @@ class MotorController:
         hibyte2 = struct.unpack('>h', b'\x00' + bytes2[0])[0]
         lobyte2 = struct.unpack('>h', b'\x00' + bytes2[1])[0]
         self.bus.write(self.address,Motor_Speeds,[hibyte1, lobyte1, hibyte2, lobyte2] )
-        time.sleep(0.005)
+        #time.sleep(0.005)
         
     def setMotorTarget(self,channel,speed,target):
         if channel==1:

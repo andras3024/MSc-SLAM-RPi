@@ -14,6 +14,7 @@ from math import sin, cos, pi,degrees,radians
 from nav_msgs.msg import Odometry
 import numpy as np
 from std_srvs.srv import Empty
+import datetime
 
 enc11old = 0
 enc21old = 0
@@ -42,10 +43,10 @@ vel_last_time = 0
 
 rospy.init_node('DCMotor', anonymous=True)
 
-odom_pub = rospy.Publisher("odom", Odometry, queue_size=2)
+odom_pub = rospy.Publisher("odom", Odometry, queue_size=1)
 odom_broadcaster = tf.TransformBroadcaster()
 
-pos_cont_pub = rospy.Publisher("robot/positon_ready", Bool, queue_size=3)
+pos_cont_pub = rospy.Publisher("robot/positon_ready", Bool, queue_size=1)
 
 # Covariance
 Pcv = np.mat(np.diag([0.0] * 3))
@@ -71,6 +72,17 @@ xdes = 0
 ydes = 0
 newPosMsg = False
 newPosMoving = False
+
+publish_tf = rospy.get_param('~publish_tf', False)
+
+v_filter_length = 2
+vx_array = np.zeros(v_filter_length)
+vy_array = np.zeros(v_filter_length)
+vth_array = np.zeros(v_filter_length)
+v_index = 0
+
+new_speed = False
+
 
 def readAllEncoders():
 	global enc11old, enc12old, enc21old, enc22old
@@ -99,6 +111,7 @@ def readAllEncoders():
 		rospy.logwarn("Encoder read error")
 	return [denc11i,denc12i,denc21i,denc22i]
 
+
 def position_control():
 	global enc11, enc12, enc21, enc22, METtoENC
 	global xdes,ydes
@@ -116,10 +129,12 @@ def position_control():
 	cmd_enc22 = int(xo * METtoENC + enc22)
 	return cmd_enc11,cmd_enc12,cmd_enc21,cmd_enc22
 
+
 def posupdate():
 	global th,x,y,vel_last_time
 	global odom_pub, odom_broadcaster
 	global Pcv
+	global vx_array, vy_array, vth_array, v_index
 
 	[denc11,denc12,denc21,denc22] = readAllEncoders()
 	current_time_o = rospy.Time.now()
@@ -146,9 +161,18 @@ def posupdate():
 
 	delta_x_base = delta_x0*cos(base_th)-delta_y0*sin(base_th)
 	delta_y_base = delta_x0*sin(base_th)+delta_y0*cos(base_th)
-	vx = delta_x_base/dt # m/s
-	vy = delta_y_base/dt # m/s
-	vth = delta_th/dt # rad/s
+	vx_array[v_index] = delta_x_base/dt # m/s
+	vy_array[v_index] = delta_y_base/dt # m/s
+	vth_array[v_index] = delta_th/dt # rad/s
+	if v_index < v_filter_length-1:
+		v_index += 1
+	else:
+		v_index = 0
+
+	vx = np.average(vx_array)
+	vy = np.average(vy_array)
+	vth = np.average(vth_array)
+
 	if th > pi:
 		th = th-2*pi
 	elif th < -pi:
@@ -157,7 +181,8 @@ def posupdate():
 	odom_quat = tf.transformations.quaternion_from_euler(0, 0, th)
 
 	# Publish the transform over tf
-	#odom_broadcaster.sendTransform((x, y, 0.),odom_quat,current_time_o,"base_link","odom")
+	if publish_tf:
+		odom_broadcaster.sendTransform((x, y, 0.),odom_quat,current_time_o,"base_link","odom")
 
 	# Publish the odometry message over ROS
 	odom = Odometry()
@@ -197,9 +222,10 @@ def handle_reset_encoders(self):
 	return []
 
 def callback_vel(data):
-	global v1, v2, v3, v4
+	global v1, v2, v3, v4, new_speed
 	# Get new motor speeds
 	[v1,v2,v3,v4] = VxVyWtoMotorSpeeds(data.linear.x,data.linear.y,data.angular.z,225)
+	new_speed = True
 
 def callback_pos(data):
 	global xdes, ydes, newPosMsg
@@ -210,7 +236,7 @@ def callback_pos(data):
 def listener():
 	# Global variables for use in function
 	global v1old, v2old, v3old, v4old
-	global v1, v2, v3, v4
+	global v1, v2, v3, v4, new_speed
 	global last_time
 	global reset_encoders
 	global th,x,y
@@ -237,9 +263,10 @@ def listener():
 	# Reset encoders service
 	rospy.Service('/reset_encoders', Empty, handle_reset_encoders)
 
-	# 10 Hz while loop rate
-	r = rospy.Rate(30)
+	# 40 Hz while loop rate
+	r = rospy.Rate(40)
 	while not rospy.core.is_shutdown():
+		start = datetime.datetime.now()
 		if reset_encoders:
 			# Reset encoders to zero
 			Motor12.resetEncoders()
@@ -274,18 +301,29 @@ def listener():
 				#Motor34.stopMotors()
 				global pos_cont_pub
 				pos_cont_pub.publish(Bool(True))
-		else:
+		elif new_speed:
 			# Set Motor speeds
+			#if not (v1 == 0 or v2==0 or v3==0 or v4==0):
+				#print('V1:' + str(v1)  + ' V2:' + str(v2) + ' V3:'+ str(v3) + ' V4:' + str(v4))
 			Motor12.setMotorSpeeds(v1, v2)
 			Motor34.setMotorSpeeds(v3, v4)
 			[v1old, v2old, v3old, v4old] = [v1, v2, v3, v4]
+			new_speed = False
 
 		# Update odom position
-		posupdate()
 		time.sleep(0.01)
+		posupdate()
+		#time.sleep(0.01)
 
 		# Wait for next loop
 		r.sleep()
+		end = datetime.datetime.now()
+		time_diff = end - start
+		print_st = str(time_diff.microseconds/1000) + " ms"
+		#print(print_st)
+		if time_diff.microseconds > 50000:
+			print("Over 50 ms: " + print_st)
+
 
 if __name__ == '__main__':
 	listener()
