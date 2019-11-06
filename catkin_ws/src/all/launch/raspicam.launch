@@ -23,10 +23,23 @@
         <param name="height" value="480"/>
 
 
-        <param name="framerate" value="30"/>
+        <param name="framerate" value="90"/>
         <param name="exposure_mode" value="auto"/>
         <param name="shutter_speed" value="0"/>
         <param name="vFlip" value="true"/>
         <param name="hFlip" value="true"/>
     </node>
+
+    <!--<node pkg="dc_motor" type="DCMotorlistener.py" name="dc_motor_node" output="screen">
+		<param name="publish_tf"         type="bool" value="True"/>
+	</node>
+
+    <node name="base_link_to_laser"
+		pkg="tf" type="static_transform_publisher"
+		args="0.075 0.0 0.0 3.14 0.0 0.0 base_link laser 10"
+	/>
+	<node name="camera_link_to_laser"
+		pkg="tf" type="static_transform_publisher"
+		args="0.128 0.0 0.0 0.0 0.0 0.0 base_link camera_link 10"
+	/>-->
 </launch>

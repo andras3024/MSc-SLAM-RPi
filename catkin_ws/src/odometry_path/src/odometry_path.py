@@ -8,14 +8,13 @@ import numpy as np
 import time
 from std_srvs.srv import Empty
 
-
 # Node initialization
 rospy.init_node('path_plotter')
 # Variable initialization
 xold = 0.0
 yold = 0.0
 thetaold = 0.0
-cont = 0
+count = 0
 # Path message
 path = Path()
 # Path publisher initialization
@@ -23,14 +22,14 @@ path_name = rospy.get_param('~path_name', '/path')
 pub = rospy.Publisher(path_name, Path, queue_size=1)
 
 def handle_reset_path(self):
-    global path,cont
+    global path,count
     del path.poses[:]
-    cont = 0
+    count = 0
     return []
 
 def callback(data):
     global xold, yold, thetaold
-    global cont
+    global count
     global pub, path
 
     # Max size of array pose msg from the path
@@ -56,8 +55,8 @@ def callback(data):
         path.header.stamp=rospy.Time.now()
         pose.header.stamp = path.header.stamp
         # Check path array size
-        cont = cont + 1
-        if cont > max_append:
+        count = count + 1
+        if count > max_append:
             path.poses.pop(0)
         # Add new pose message to array
         path.poses.append(pose)
@@ -76,7 +75,7 @@ if __name__ == '__main__':
     # Reset path service
     rospy.Service('/reset_path', Empty, handle_reset_path)
 
-    rate = rospy.Rate(30) # 30hz
+    rate = rospy.Rate(5) # 30hz
     try:
         while not rospy.is_shutdown():
             rate.sleep()

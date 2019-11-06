@@ -1,6 +1,7 @@
 <launch>
 	<include file="$(find bno055_ros)/launch/imu.launch"/>
 	<include file="$(find rplidar_ros)/launch/rplidar.launch"/>
+	<include file="$(find all)/launch/raspicam.launch"/>
 
 	<node name="base_link_to_laser"
 		pkg="tf" type="static_transform_publisher"
@@ -15,7 +16,7 @@
 		<param name="publish_tf"         type="bool" value="True"/>
 	</node>
 
-	<node pkg="gmapping" type="slam_gmapping" name="slam_gmapping_node">
+	<!--<node pkg="gmapping" type="slam_gmapping" name="slam_gmapping_node">
 		<param name="particles" value="80"/>
 		<param name="maxUrange" value="11.0"/>
 		<param name="linearUpdate" value="0.25"/>
@@ -26,5 +27,5 @@
         <param name="ymin" value="-10.0"/>
         <param name="xmax" value="10.0"/>
         <param name="ymax" value="10.0"/>
-	</node>
+	</node>-->
 </launch>
